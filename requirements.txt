@@ -1,0 +1,16 @@
+diffusers==0.33.0
+transformers
+accelerate
+safetensors
+einops
+omegaconf
+huggingface-hub
+opencv-python
+aiohttp
+pyyaml
+Pillow
+importlib_metadata
+numpy
+mediapipe
+runpod
+xformers
