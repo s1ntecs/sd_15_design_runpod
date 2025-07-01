@@ -53,7 +53,6 @@ def fetch_checkpoints():
             force_download=True,
             resume_download=False
         )
-    print("✅ All checkpoints downloaded.")
 
 
 def fetch_pretrained_model(model_id=model_id, **kwargs):

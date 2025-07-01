@@ -188,6 +188,11 @@ def handler(job: Dict[str, Any]) -> Dict[str, Any]:
         guidance_scale = float(payload.get("guidance_scale", 7.5))
         steps = min(int(payload.get("steps", MAX_STEPS)), MAX_STEPS)
         seed = int(payload.get("seed", DEFAULT_SEED))
+        height = int(payload.get("height", 768))
+        width = int(payload.get("width", 1024))
+        num_images = int(payload.get("num_images", 1))
+        if num_images < 1 or num_images > 8:
+            return {"error": "'num_images' must be between 1 and 8."}
         generator = torch.Generator(device=DEVICE).manual_seed(seed)
 
         start = time.time()
@@ -195,28 +200,32 @@ def handler(job: Dict[str, Any]) -> Dict[str, Any]:
         # ------------------- generation -------------------- #
         if image_url:
             init_img = url_to_pil(image_url).resize((512, 512))
-            result = IMG2IMG_PIPE(
+            images = IMG2IMG_PIPE(
                 prompt=prompt,
                 image=init_img,
                 strength=strength,
                 guidance_scale=guidance_scale,
                 num_inference_steps=steps,
                 generator=generator,
-            ).images[0]
+                num_images_per_prompt=num_images,
+            ).images
         else:
-            result = TXT2IMG_PIPE(
+            images = TXT2IMG_PIPE(
                 prompt=prompt,
                 guidance_scale=guidance_scale,
                 num_inference_steps=steps,
                 generator=generator,
-            ).images[0]
+                height=height,
+                width=width,
+                num_images_per_prompt=num_images,
+            ).images
 
         elapsed = round(time.time() - start, 2)
         return {
-            "image_base64": pil_to_b64(result),
+            "images_base64": [pil_to_b64(img) for img in images],
             "time": elapsed,
             "steps": steps,
-            "lora": CURRENT_LORA if CURRENT_LORA != "None" else None,
+            "seed": seed,
         }
 
     except torch.cuda.OutOfMemoryError:
