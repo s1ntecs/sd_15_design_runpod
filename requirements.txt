@@ -19,7 +19,7 @@ pyyaml
 importlib_metadata              # нужен только на Python < 3.10
 
 # --- PEFT (LoRA backend) ---
-peft>=0.6.3                     # <-- добавили
+peft==0.5.0                       # <-- добавили
 
 # --- RunPod worker ---
 runpod                          
