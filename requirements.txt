@@ -1,16 +1,28 @@
-diffusers==0.29.2
+# --- основные библиотеки для Stable Diffusion ---
+diffusers==0.29.2               # LoRA поддержка через PEFT
 transformers==4.38.2
 accelerate>=0.27,<0.28
-safetensors
+safetensors                     # быстрый и безопасный формат весов
 einops
 omegaconf
 huggingface-hub
+
+# --- обработка изображений / видео ---
 opencv-python
+Pillow
+numpy
+mediapipe                       # если нужен детектор поз / рук
+
+# --- сетевое / утилиты ---
 aiohttp
 pyyaml
-Pillow
-importlib_metadata
-numpy
-mediapipe
-# runpod
-# xformers
+importlib_metadata              # нужен только на Python < 3.10
+
+# --- PEFT (LoRA backend) ---
+peft>=0.6.3                     # <-- добавили
+
+# --- RunPod worker ---
+runpod                          
+
+# --- Xformers (опционально, ускоряет память) ---
+# xformers==0.0.25.post1        # закомментируйте, если нет CUDA 12
