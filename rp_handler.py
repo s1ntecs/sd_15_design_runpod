@@ -42,7 +42,7 @@ from runpod.serverless.utils.rp_download import file as rp_file
 MODEL_ID = "hafsa000/interior-design"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 DTYPE = torch.float16 if DEVICE == "cuda" else torch.float32
-MAX_STEPS = 25
+MAX_STEPS = 125
 DEFAULT_SEED = 42
 LORA_REPO = "sintecs/interior"
 LORA_DIR = "./loras"
@@ -57,8 +57,7 @@ LORA_LIST = [
     "xsarchitectural-15Nightatmospherearchitecture.safetensors",
     "xsarchitectural-18Whiteexquisiteinterior.safetensors",
     "xsarchitectural-19Houseplan (1).safetensors",
-    "xsarchitectural-19Houseplan.safetensors",
-    "xsarchitectural-7.safetensors",
+    "xsarchitectural-19Houseplan.safetensors"
 ]
 
 os.makedirs(LORA_DIR, exist_ok=True)
